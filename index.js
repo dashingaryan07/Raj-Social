@@ -13,6 +13,7 @@ const messageRoute = require("./routes/messages");
 const conversationRoute = require("./routes/conversations");
 const router = express.Router();
 const path = require("path");
+const cors = require('cors')
 
 const server = createServer(app)
 
@@ -20,8 +21,20 @@ const { Server, socket } = require('socket.io');
 
 const io = new Server(server,{
   cors: {
-    origin:["http://localhost:3000"]
-  }
+     origin: "*",
+     methods: ["GET", "POST"],
+     allowedHeaders: ['Access-Control-Allow-Origin','*'],
+     credentials: true
+   }
+ })
+ 
+
+
+app.use((req,res,next)=>{
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
+  res.setHeader('Access-Control-Allow-Methods','Content-Type','Authorization');
+  next(); 
 })
 
 
